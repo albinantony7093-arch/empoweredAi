@@ -1,4 +1,5 @@
 import 'package:empowered_ai/src/presentation/controller/auth/auth_controller.dart';
+import 'package:empowered_ai/src/presentation/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
