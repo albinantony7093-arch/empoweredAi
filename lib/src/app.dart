@@ -1,4 +1,4 @@
-import 'package:empowered_ai/src/presentation/screens/onBoarding/splash_screen.dart';
+import 'package:empowered_ai/src/presentation/screens/landing/landing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -12,7 +12,7 @@ class EmpowerdAi extends StatelessWidget {
       title: 'EmpoweredAi',
       debugShowCheckedModeBanner: false,
       builder: EasyLoading.init(),
-      home: SplashScreen(),
+      home: LandingPage(),
     );
   }
 }

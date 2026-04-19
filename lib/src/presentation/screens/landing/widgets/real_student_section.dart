@@ -434,6 +434,29 @@ class _TestimonialCard extends StatelessWidget {
           const SizedBox(height: 14),
 
           // Badge
+          // Container(
+          //   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          //   decoration: BoxDecoration(
+          //     color: badgeColor.withOpacity(0.08),
+          //     borderRadius: BorderRadius.circular(50),
+          //     border: Border.all(color: badgeColor.withOpacity(0.2)),
+          //   ),
+          //   child: Row(
+          //     mainAxisSize: MainAxisSize.min,
+          //     children: [
+          //       Text(badgeIcon, style: const TextStyle(fontSize: 12)),
+          //       const SizedBox(width: 6),
+          //       Text(
+          //         badgeLabel,
+          //         style: GoogleFonts.inter(
+          //           color: badgeColor,
+          //           fontSize: 11,
+          //           fontWeight: FontWeight.w600,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
@@ -446,12 +469,16 @@ class _TestimonialCard extends StatelessWidget {
               children: [
                 Text(badgeIcon, style: const TextStyle(fontSize: 12)),
                 const SizedBox(width: 6),
-                Text(
-                  badgeLabel,
-                  style: GoogleFonts.inter(
-                    color: badgeColor,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
+                Flexible(
+                  child: Text(
+                    badgeLabel,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: GoogleFonts.inter(
+                      color: badgeColor,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ],

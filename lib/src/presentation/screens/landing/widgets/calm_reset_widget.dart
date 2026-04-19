@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CalmResetWidget extends StatelessWidget {
-  CalmResetWidget({super.key});
+  const CalmResetWidget({super.key});
 
   final Color navy = const Color(0xff1F2E4A);
   final Color navyLight = const Color(0xff253554);
