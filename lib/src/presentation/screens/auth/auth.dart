@@ -178,7 +178,9 @@ class Auth extends StatelessWidget {
       width: double.infinity,
       height: 48,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          Get.offAll(() => HomeScreen());
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xffD72638),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),

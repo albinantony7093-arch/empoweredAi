@@ -135,10 +135,7 @@ class _ResponsiveNavBarState extends State<ResponsiveNavBar> {
               scrollTo(widget.programsKey);
             }),
             _navItem("Courses", () {
-              scrollTo(widget.coursesKey);
-            }),
-            _navItem("Login", () {
-              Get.to(() => Auth());
+              // scrollTo(widget.coursesKey);
             }),
           ],
         ),
@@ -163,19 +160,8 @@ class _ResponsiveNavBarState extends State<ResponsiveNavBar> {
           _mobileItem("Calm Corner", widget.calmKey),
           _mobileItem("Programs", widget.programsKey),
           _mobileItem("Courses", widget.coursesKey),
-          _mobileLogin(),
         ],
       ),
-    );
-  }
-
-  Widget _mobileLogin() {
-    return ListTile(
-      title: const Text("Login"),
-      onTap: () {
-        setState(() => _isMenuOpen = false);
-        Get.to(() => Auth());
-      },
     );
   }
 
@@ -220,7 +206,7 @@ class _ResponsiveNavBarState extends State<ResponsiveNavBar> {
           borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
-          "Start free",
+          "Login →",
           style: GoogleFonts.outfit(
             color: Colors.white,
             fontWeight: FontWeight.w600,
