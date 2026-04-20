@@ -1,4 +1,5 @@
 import 'package:empowered_ai/src/presentation/screens/home_dashboard/home_ugpg.dart';
+import 'package:empowered_ai/src/presentation/screens/home_test/home_test.dart';
 import 'package:empowered_ai/src/presentation/screens/landing/landing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -14,7 +15,8 @@ class EmpowerdAi extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       builder: EasyLoading.init(),
       // home: LandingPage(),
-      home: DashboardPage(),
+      // home: DashboardPage(),
+        home: HomeTestPage(),
     );
   }
 }
