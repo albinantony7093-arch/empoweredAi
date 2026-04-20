@@ -1,18 +1,18 @@
 import 'dart:developer';
 
 import 'package:empowered_ai/src/presentation/controller/onBoardingcontroller/onBoardingcontroller.dart';
-import 'package:empowered_ai/src/presentation/screens/landing/widgets/calm_reset_widget.dart';
-import 'package:empowered_ai/src/presentation/screens/landing/widgets/choose_your_path.dart';
-import 'package:empowered_ai/src/presentation/screens/landing/widgets/empoweredworks.dart';
-import 'package:empowered_ai/src/presentation/screens/landing/widgets/feature_strip_widget.dart';
-import 'package:empowered_ai/src/presentation/screens/landing/widgets/footer.dart';
-import 'package:empowered_ai/src/presentation/screens/landing/widgets/free_diagonostic_test.dart';
-import 'package:empowered_ai/src/presentation/screens/landing/widgets/hero_section.dart';
-import 'package:empowered_ai/src/presentation/screens/landing/widgets/improvementwidget.dart';
-import 'package:empowered_ai/src/presentation/screens/landing/widgets/intelligent_learning.dart';
-import 'package:empowered_ai/src/presentation/screens/landing/widgets/navbar.dart';
-import 'package:empowered_ai/src/presentation/screens/landing/widgets/performancepicturesection.dart';
-import 'package:empowered_ai/src/presentation/screens/landing/widgets/real_student_section.dart';
+import 'package:empowered_ai/src/presentation/screens/landingpage/widgets/calm_reset_widget.dart';
+import 'package:empowered_ai/src/presentation/screens/landingpage/widgets/choose_your_path.dart';
+import 'package:empowered_ai/src/presentation/screens/landingpage/widgets/empoweredworks.dart';
+import 'package:empowered_ai/src/presentation/screens/landingpage/widgets/feature_strip_widget.dart';
+import 'package:empowered_ai/src/presentation/screens/landingpage/widgets/footer.dart';
+import 'package:empowered_ai/src/presentation/screens/landingpage/widgets/free_diagonostic_test.dart';
+import 'package:empowered_ai/src/presentation/screens/landingpage/widgets/hero_section.dart';
+import 'package:empowered_ai/src/presentation/screens/landingpage/widgets/improvementwidget.dart';
+import 'package:empowered_ai/src/presentation/screens/landingpage/widgets/intelligent_learning.dart';
+import 'package:empowered_ai/src/presentation/screens/landingpage/widgets/navbar.dart';
+import 'package:empowered_ai/src/presentation/screens/landingpage/widgets/performancepicturesection.dart';
+import 'package:empowered_ai/src/presentation/screens/landingpage/widgets/real_student_section.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
