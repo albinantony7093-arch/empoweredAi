@@ -1,4 +1,4 @@
-import 'package:empowered_ai/src/presentation/screens/home_dashboard/widgets/toggle_button.dart';
+import 'package:empowered_ai/src/presentation/screens/dashboard/widgets/toggle_button.dart';
 import 'package:flutter/material.dart';
 
 class ExamToggle extends StatelessWidget {
@@ -36,7 +36,7 @@ class ExamToggle extends StatelessWidget {
             onTap: onToggle,
           ),
         ],
-      )
+      ),
     );
   }
 }
