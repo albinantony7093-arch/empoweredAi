@@ -1,6 +1,7 @@
 import 'package:empowered_ai/src/presentation/controller/home/home_controller.dart';
 import 'package:empowered_ai/src/presentation/screens/dashboard/dashboard.dart';
 import 'package:empowered_ai/src/presentation/screens/home/widgets/topnavbar.dart';
+import 'package:empowered_ai/src/presentation/screens/home_test/home_test.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,7 +16,7 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         children: [
           const TopNavBar(),
-          Expanded(child: DashboardScreen()),
+          Expanded(child: ExamCard()),
         ],
       ),
     );

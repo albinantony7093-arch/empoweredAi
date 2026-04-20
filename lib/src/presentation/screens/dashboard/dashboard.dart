@@ -18,7 +18,6 @@ class DashboardScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                /// PERFORMANCE CARD
                 _card(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,12 +51,10 @@ class DashboardScreen extends StatelessWidget {
 
                 const SizedBox(height: 12),
 
-                /// CTA TEXT
                 _monoText("YOUR FASTEST IMPROVEMENT PATH STARTS HERE"),
 
                 const SizedBox(height: 8),
 
-                /// PRIMARY CTA
                 _primaryCTA(),
 
                 const SizedBox(height: 6),
@@ -66,7 +63,6 @@ class DashboardScreen extends StatelessWidget {
 
                 const SizedBox(height: 12),
 
-                /// AI CARD
                 _card(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,7 +85,6 @@ class DashboardScreen extends StatelessWidget {
 
                 const SizedBox(height: 12),
 
-                /// WEAK AREAS
                 _card(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,7 +105,6 @@ class DashboardScreen extends StatelessWidget {
 
                 const SizedBox(height: 12),
 
-                /// CALM CARD
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
@@ -164,7 +158,6 @@ class DashboardScreen extends StatelessWidget {
 
                 const SizedBox(height: 12),
 
-                /// ACTIVITY
                 _card(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -186,8 +179,6 @@ class DashboardScreen extends StatelessWidget {
       ),
     );
   }
-
-  /// ---------------- COMPONENTS ----------------
 
   Widget _card({required Widget child}) {
     return Container(
