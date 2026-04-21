@@ -29,6 +29,8 @@ class LandingPageController extends GetxController {
       token.value = await StorageService.getAccessToken();
       if (token.value != null) {
         Get.offAll(() => HomeScreen());
+      } else {
+        log("token is empty need to login");
       }
     } catch (e) {
       log("💥 Error in navigate():$e");

@@ -1,5 +1,6 @@
+import 'dart:developer';
+
 import 'package:empowered_ai/src/presentation/controller/auth/auth_controller.dart';
-import 'package:empowered_ai/src/presentation/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,6 +9,12 @@ class Auth extends StatelessWidget {
   Auth({super.key});
 
   final controller = Get.put(AuthController());
+
+  /// Text Controllers
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final nameController = TextEditingController();
+  final mobileController = TextEditingController();
 
   final Color red = const Color(0xffD72638);
   final Color navy = const Color(0xff1A2B4A);
@@ -69,22 +76,44 @@ class Auth extends StatelessWidget {
 
                   /// Login Form
                   if (controller.isLogin.value) ...[
-                    _input("Email or Mobile Number"),
+                    _input(
+                      "Email or Mobile Number",
+                      controller: emailController,
+                    ),
                     const SizedBox(height: 12),
-                    _input("Password", isPassword: true),
+
+                    _input(
+                      "Password",
+                      controller: passwordController,
+                      isPassword: true,
+                    ),
+
                     const SizedBox(height: 18),
+
                     _button("Login"),
                   ]
                   /// Register Form
                   else ...[
-                    _input("Full Name"),
+                    _input("Full Name", controller: nameController),
+
                     const SizedBox(height: 12),
-                    _input("Email"),
+
+                    _input("Email", controller: emailController),
+
                     const SizedBox(height: 12),
-                    _input("Mobile Number"),
+
+                    _input("Mobile Number", controller: mobileController),
+
                     const SizedBox(height: 12),
-                    _input("Password", isPassword: true),
+
+                    _input(
+                      "Password",
+                      controller: passwordController,
+                      isPassword: true,
+                    ),
+
                     const SizedBox(height: 18),
+
                     _button("Create Account"),
                   ],
 
@@ -138,8 +167,13 @@ class Auth extends StatelessWidget {
   }
 
   /// Input Field
-  Widget _input(String hint, {bool isPassword = false}) {
+  Widget _input(
+    String hint, {
+    bool isPassword = false,
+    required TextEditingController controller,
+  }) {
     return TextField(
+      controller: controller,
       obscureText: isPassword,
       style: GoogleFonts.outfit(fontSize: 14, color: const Color(0xff1A2B4A)),
       decoration: InputDecoration(
@@ -172,27 +206,54 @@ class Auth extends StatelessWidget {
     );
   }
 
-  /// Button
   Widget _button(String title) {
     return SizedBox(
       width: double.infinity,
       height: 48,
-      child: ElevatedButton(
-        onPressed: () {
-          Get.offAll(() => HomeScreen());
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xffD72638),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          elevation: 0,
-        ),
-        child: Text(
-          title,
-          style: GoogleFonts.outfit(
-            fontWeight: FontWeight.w700,
-            fontSize: 14,
-            color: Colors.white,
+      child: Obx(
+        () => ElevatedButton(
+          onPressed: () {
+            if (controller.isLoading.value) return;
+
+            if (controller.isLogin.value) {
+              controller.loginUser(
+                email: emailController.text.trim(),
+                password: passwordController.text.trim(),
+              );
+            } else {
+              controller.registeruser(
+                name: nameController.text.trim(),
+                email: emailController.text.trim(),
+                mobile: mobileController.text.trim(),
+                password: passwordController.text.trim(),
+              );
+            }
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xffD72638),
+            disabledBackgroundColor: const Color(0xffD72638), // keep same color
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            elevation: 0,
           ),
+          child: controller.isLoading.value
+              ? const SizedBox(
+                  height: 18,
+                  width: 18,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Colors.white,
+                  ),
+                )
+              : Text(
+                  title,
+                  style: GoogleFonts.outfit(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                    color: Colors.white,
+                  ),
+                ),
         ),
       ),
     );

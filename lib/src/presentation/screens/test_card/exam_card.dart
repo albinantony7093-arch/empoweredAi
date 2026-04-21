@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:empowered_ai/src/presentation/controller/home/home_controller.dart';
 import 'package:empowered_ai/src/presentation/screens/test_card/widgets/metabox.dart';
 import 'package:empowered_ai/src/presentation/screens/test_card/widgets/tabbutton.dart';
-import 'package:empowered_ai/src/presentation/screens/test_page/test_page.dart';
+import 'package:empowered_ai/src/presentation/screens/exam/exam_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -83,8 +83,7 @@ class ExamCard extends StatelessWidget {
                             elevation: 0,
                           ),
                           onPressed: () {
-                            log("btn : ${controller.selected}");
-                            Get.to(() => TestPage());
+                            controller.getTestqstns();
                           },
                           child: Text(
                             d["btn"]!,
