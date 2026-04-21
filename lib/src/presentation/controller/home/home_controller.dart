@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
@@ -12,14 +14,14 @@ class HomeController extends GetxController {
       "btn": "Start UG Test",
       "q": "50",
       "s": "PCB",
-      "l": "Undergraduate",
+      "l": "UG",
     },
     "pg": {
       "desc": "Postgraduate entrance — advanced medical level test.",
       "btn": "Start PG Test",
       "q": "60",
       "s": "Clinical",
-      "l": "Postgraduate",
+      "l": "PG",
     },
   };
 
@@ -30,6 +32,7 @@ class HomeController extends GetxController {
   Map<String, String> get current => data[selected.value]!;
 
   void changeIndex(int index) {
+    log("current index:$index");
     currentIndex.value = index;
   }
 }

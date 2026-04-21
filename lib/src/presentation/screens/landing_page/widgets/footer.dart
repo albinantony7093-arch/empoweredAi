@@ -14,13 +14,10 @@ class EmpoweredFooter extends StatelessWidget {
       color: const Color(0xFF0F1C36),
       child: Stack(
         children: [
-          // Dot grid texture
           Positioned.fill(child: CustomPaint(painter: _DotGridPainter())),
-
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ── Main footer content ──────────────────────────────
               Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: isWide
@@ -37,14 +34,12 @@ class EmpoweredFooter extends StatelessWidget {
                     : _NarrowLayout(),
               ),
 
-              // ── Divider ──────────────────────────────────────────
               Divider(
                 color: Colors.white.withOpacity(0.1),
                 height: 1,
                 thickness: 1,
               ),
 
-              // ── Bottom bar ───────────────────────────────────────
               Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: isWide
@@ -78,24 +73,12 @@ class EmpoweredFooter extends StatelessWidget {
               ),
             ],
           ),
-
-          // ── Floating CTA button (bottom-right) ───────────────────
-          // Positioned(
-          //   bottom: 12,
-          //   right: isWide
-          //       ? 64
-          //       : isMid
-          //       ? 36
-          //       : 16,
-          //   child: const _FloatingCTA(),
-          // ),
         ],
       ),
     );
   }
 }
 
-// ─── Wide Layout (> 900px) ────────────────────────────────────────────────────
 class _WideLayout extends StatelessWidget {
   const _WideLayout();
 
@@ -104,10 +87,9 @@ class _WideLayout extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Brand column — takes more space
         const Expanded(flex: 3, child: _BrandColumn()),
         const SizedBox(width: 40),
-        // Link columns
+
         Expanded(
           flex: 7,
           child: Row(
@@ -155,7 +137,6 @@ class _WideLayout extends StatelessWidget {
   }
 }
 
-// ─── Mid Layout (600–900px) ───────────────────────────────────────────────────
 class _MidLayout extends StatelessWidget {
   const _MidLayout();
 
@@ -210,7 +191,6 @@ class _MidLayout extends StatelessWidget {
   }
 }
 
-// ─── Narrow Layout (< 600px) ──────────────────────────────────────────────────
 class _NarrowLayout extends StatelessWidget {
   const _NarrowLayout();
 
@@ -256,7 +236,6 @@ class _NarrowLayout extends StatelessWidget {
   }
 }
 
-// ─── Brand Column ─────────────────────────────────────────────────────────────
 class _BrandColumn extends StatelessWidget {
   const _BrandColumn();
 
@@ -265,11 +244,14 @@ class _BrandColumn extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Logo icon — red tent/mountain
-        Container(
-          width: 40,
-          height: 36,
-          child: CustomPaint(painter: _TentIconPainter()),
+        SizedBox(
+          width: 52,
+          height: 52,
+          child: Image.asset(
+            'assets/images/logo.png',
+            scale: 1,
+            fit: BoxFit.cover,
+          ),
         ),
 
         const SizedBox(height: 14),
@@ -325,7 +307,6 @@ class _BrandColumn extends StatelessWidget {
   }
 }
 
-// ─── Link Column ──────────────────────────────────────────────────────────────
 class _LinkColumn extends StatelessWidget {
   final String title;
   final List<String> links;
@@ -369,64 +350,6 @@ class _LinkColumn extends StatelessWidget {
   }
 }
 
-// ─── Floating CTA Button ──────────────────────────────────────────────────────
-class _FloatingCTA extends StatelessWidget {
-  const _FloatingCTA();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFFE8192C),
-        borderRadius: BorderRadius.circular(50),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFE8192C).withOpacity(0.45),
-            blurRadius: 20,
-            spreadRadius: 0,
-            offset: const Offset(0, 6),
-          ),
-        ],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(50),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(50),
-          onTap: () {},
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 10,
-                  height: 10,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.9),
-                    shape: BoxShape.circle,
-                  ),
-                ),
-                const SizedBox(width: 10),
-                const Text(
-                  'Take Free Diagnostic →',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 0.2,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// ─── Dot Grid Painter ─────────────────────────────────────────────────────────
 class _DotGridPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -443,25 +366,4 @@ class _DotGridPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_DotGridPainter old) => false;
-}
-
-// ─── Tent / Logo Icon Painter ─────────────────────────────────────────────────
-class _TentIconPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = const Color(0xFFE8192C)
-      ..style = PaintingStyle.fill;
-
-    final path = Path()
-      ..moveTo(size.width * 0.5, 0) // apex
-      ..lineTo(size.width, size.height) // bottom-right
-      ..lineTo(0, size.height) // bottom-left
-      ..close();
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(_TentIconPainter old) => false;
 }

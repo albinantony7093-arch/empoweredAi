@@ -1,7 +1,9 @@
-import 'package:empowered_ai/src/core/util/responsive.dart';
+import 'dart:developer';
+
 import 'package:empowered_ai/src/presentation/controller/home/home_controller.dart';
-import 'package:empowered_ai/src/presentation/screens/home_test/widgets/metabox.dart';
-import 'package:empowered_ai/src/presentation/screens/home_test/widgets/tabbutton.dart';
+import 'package:empowered_ai/src/presentation/screens/test_card/widgets/metabox.dart';
+import 'package:empowered_ai/src/presentation/screens/test_card/widgets/tabbutton.dart';
+import 'package:empowered_ai/src/presentation/screens/test_page/test_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -75,56 +77,65 @@ class ExamCard extends StatelessWidget {
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xffe0243a),
-                            shape: const StadiumBorder(),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 24,
-                              vertical: 14,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             elevation: 0,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            log("btn : ${controller.selected}");
+                            Get.to(() => TestPage());
+                          },
                           child: Text(
                             d["btn"]!,
-                            style: const TextStyle(fontWeight: FontWeight.w600),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
 
                         const SizedBox(height: 18),
 
-                        isMobile
-                            ? Column(
-                                children: [
-                                  MetaBox(label: "Questions", value: d["q"]!),
-                                  const SizedBox(height: 10),
-                                  MetaBox(label: "Subjects", value: d["s"]!),
-                                  const SizedBox(height: 10),
-                                  MetaBox(label: "Level", value: d["l"]!),
-                                ],
-                              )
-                            : Row(
-                                children: [
-                                  Expanded(
-                                    child: MetaBox(
-                                      label: "Questions",
-                                      value: d["q"]!,
-                                    ),
+                        LayoutBuilder(
+                          builder: (context, box) {
+                            final isMobile = box.maxWidth < 600;
+
+                            return Wrap(
+                              spacing: 12,
+                              runSpacing: 12,
+                              children: [
+                                SizedBox(
+                                  width: isMobile
+                                      ? (box.maxWidth - 44) / 2
+                                      : null,
+                                  child: MetaBox(
+                                    label: "Questions",
+                                    value: d["q"]!,
                                   ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: MetaBox(
-                                      label: "Subjects",
-                                      value: d["s"]!,
-                                    ),
+                                ),
+                                SizedBox(
+                                  width: isMobile
+                                      ? (box.maxWidth - 44) / 2
+                                      : null,
+                                  child: MetaBox(
+                                    label: "Subjects",
+                                    value: d["s"]!,
                                   ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: MetaBox(
-                                      label: "Level",
-                                      value: d["l"]!,
-                                    ),
+                                ),
+                                SizedBox(
+                                  width: isMobile
+                                      ? (box.maxWidth - 44) / 2
+                                      : null,
+                                  child: MetaBox(
+                                    label: "Level",
+                                    value: d["l"]!,
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
                       ],
                     ),
                   ),

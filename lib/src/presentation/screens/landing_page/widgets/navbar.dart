@@ -101,7 +101,15 @@ class _ResponsiveNavBarState extends State<ResponsiveNavBar> {
   Widget _buildLogo(bool compact) {
     return Row(
       children: [
-        Icon(Icons.favorite, color: red),
+        SizedBox(
+          height: 42,
+          width: 42,
+          child: Image.asset(
+            "assets/images/logo.png",
+            scale: 1,
+            fit: BoxFit.cover,
+          ),
+        ),
         const SizedBox(width: 10),
         Text(
           "EmpowerED",
