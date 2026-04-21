@@ -1,6 +1,6 @@
-import 'package:empowered_ai/src/presentation/controller/home/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:empowered_ai/src/presentation/controller/home/home_controller.dart';
 
 class TabButton extends StatelessWidget {
   final String title;
