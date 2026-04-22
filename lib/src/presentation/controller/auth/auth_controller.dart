@@ -27,9 +27,12 @@ class AuthController extends GetxController {
 
       res.fold(
         (l) {
-          log("msg:${l.message}");
+          log(
+            "failed in response left l.msg:${l.message} statuscode :${l.code}",
+          );
         },
         (R) async {
+          log("success in response right");
           await StorageService.saveTokens(accessToken: R['access_token']);
           Get.offAll(() => HomeScreen());
         },

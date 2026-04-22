@@ -16,6 +16,7 @@ class AuthRepoImpl implements AuthRepo {
     final url = "${Url.baseUrl}/${Url.login}";
 
     try {
+      print("url->:$url");
       final data = jsonEncode({"email": email, "password": passwd});
       final response = await DioClient.dio.post(url, data: data);
       if (response.statusCode == 200) {

@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 class HomeController extends GetxController {
   var currentIndex = 0.obs;
   final selected = "ug".obs;
+  var isLoading = false.obs;
 
   final ExamRepo _examRepo = ExamRepoimpl();
 
@@ -43,6 +44,12 @@ class HomeController extends GetxController {
 
   void getTestqstns() async {
     try {
+      if (isLoading.value) {
+        return;
+      }
+
+      isLoading.value = true;
+
       final res = await _examRepo.getQstns(course: selected.value);
 
       res.fold((l) {}, (R) {
@@ -61,6 +68,9 @@ class HomeController extends GetxController {
       });
     } catch (e) {
       log("💥 Error in getTestqstns:$e");
+      isLoading.value = false;
+    } finally {
+      isLoading.value = false;
     }
   }
 }

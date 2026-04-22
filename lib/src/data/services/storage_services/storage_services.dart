@@ -10,11 +10,15 @@ class StorageService {
     String? accessToken,
     String? refreshToken,
   }) async {
-    if (accessToken != null) {
-      await _storage.write(key: _accessTokenKey, value: accessToken);
-    }
-    if (refreshToken != null) {
-      await _storage.write(key: _refreshTokenKey, value: refreshToken);
+    try {
+      if (accessToken != null) {
+        await _storage.write(key: _accessTokenKey, value: accessToken);
+      }
+      if (refreshToken != null) {
+        await _storage.write(key: _refreshTokenKey, value: refreshToken);
+      }
+    } catch (e) {
+      print("error in saveTokens():$e");
     }
   }
 

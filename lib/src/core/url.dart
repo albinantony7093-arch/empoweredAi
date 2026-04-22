@@ -1,7 +1,6 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 class Url {
-  static String baseUrl = dotenv.env['BASE_URL'] ?? '<url not found>';
+  static String baseUrl =
+      'https://wallace-telephony-web-assignment.trycloudflare.com';
 
   static String login = 'auth/login';
   static String register = 'auth/register';

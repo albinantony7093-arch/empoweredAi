@@ -8,7 +8,6 @@ import 'package:empowered_ai/src/core/url.dart';
 import 'package:empowered_ai/src/data/models/exam_model.dart';
 
 import 'package:empowered_ai/src/domain/repositories/exam/exam_repo.dart';
-import 'package:get/get.dart';
 
 class ExamRepoimpl implements ExamRepo {
   @override

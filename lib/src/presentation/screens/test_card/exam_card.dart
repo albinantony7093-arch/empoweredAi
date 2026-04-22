@@ -1,9 +1,7 @@
-import 'dart:developer';
-
 import 'package:empowered_ai/src/presentation/controller/home/home_controller.dart';
 import 'package:empowered_ai/src/presentation/screens/test_card/widgets/metabox.dart';
 import 'package:empowered_ai/src/presentation/screens/test_card/widgets/tabbutton.dart';
-import 'package:empowered_ai/src/presentation/screens/exam/exam_page.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -74,22 +72,50 @@ class ExamCard extends StatelessWidget {
 
                         const SizedBox(height: 18),
 
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xffe0243a),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
+                        Obx(
+                          () => ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xffe0243a),
+                              disabledBackgroundColor: const Color(0xffe0243a),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              elevation: 0,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 12,
+                              ),
                             ),
-                            elevation: 0,
-                          ),
-                          onPressed: () {
-                            controller.getTestqstns();
-                          },
-                          child: Text(
-                            d["btn"]!,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
+                            onPressed: () {
+                              if (!controller.isLoading.value) {
+                                controller.getTestqstns();
+                              }
+                            },
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                /// Invisible text keeps width fixed
+                                Opacity(
+                                  opacity: controller.isLoading.value ? 0 : 1,
+                                  child: Text(
+                                    d["btn"]!,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+
+                                if (controller.isLoading.value)
+                                  const SizedBox(
+                                    height: 18,
+                                    width: 18,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                              ],
                             ),
                           ),
                         ),
