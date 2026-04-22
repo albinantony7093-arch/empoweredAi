@@ -51,7 +51,7 @@ class Auth extends StatelessWidget {
                 children: [
                   /// Title
                   Text(
-                    "Welcome to EmpowerED",
+                    "Welcome to Empower",
                     style: GoogleFonts.outfit(
                       fontSize: 22,
                       fontWeight: FontWeight.w600,
@@ -213,19 +213,17 @@ class Auth extends StatelessWidget {
       child: Obx(
         () => ElevatedButton(
           onPressed: () {
-            if (controller.isLoading.value) return;
-
             if (controller.isLogin.value) {
               controller.loginUser(
-                email: emailController.text.trim(),
-                password: passwordController.text.trim(),
+                email: emailController.text,
+                password: passwordController.text,
               );
             } else {
               controller.registeruser(
-                name: nameController.text.trim(),
-                email: emailController.text.trim(),
-                mobile: mobileController.text.trim(),
-                password: passwordController.text.trim(),
+                name: nameController.text,
+                email: emailController.text,
+                mobile: mobileController.text,
+                password: passwordController.text,
               );
             }
           },

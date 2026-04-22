@@ -29,7 +29,6 @@ class ExamPage extends StatelessWidget {
 
                   const SizedBox(height: 16),
 
-                  /// Questions
                   Obx(() {
                     return Column(
                       children: List.generate(ctrl.questions.length, (index) {
@@ -49,7 +48,6 @@ class ExamPage extends StatelessWidget {
 
                   const SizedBox(height: 20),
 
-                  /// Submit Button (Right aligned)
                   Align(
                     alignment: Alignment.centerRight,
                     child: SizedBox(
