@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:empowered_ai/src/data/models/exam_model.dart';
 import 'package:empowered_ai/src/data/repositories/exam/exam_repoImpl.dart';
 import 'package:empowered_ai/src/domain/repositories/exam/exam_repo.dart';
+import 'package:empowered_ai/src/presentation/screens/exam/result_page.dart';
 import 'package:get/get.dart';
 
 class ExamController extends GetxController {
@@ -58,7 +59,7 @@ class ExamController extends GetxController {
 
       final res = await _examRepo.submit(answers: payload);
       res.fold((l) {}, (r) {
-        Get.back();
+        Get.to(() => ResultPage());
       });
 
       log("Submit Success: $res");
