@@ -1,28 +1,22 @@
 import 'dart:developer';
-
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:empowered_ai/src/core/network/dio_client.dart';
 import 'package:empowered_ai/src/core/network/failure.dart';
 import 'package:empowered_ai/src/core/url.dart';
-import 'package:empowered_ai/src/data/models/exam_model.dart';
+import 'package:empowered_ai/src/data/models/course_model.dart';
+import 'package:empowered_ai/src/data/models/enrolled_course.dart';
+import 'package:empowered_ai/src/domain/repositories/courses/course_repo.dart';
 
-import 'package:empowered_ai/src/domain/repositories/exam/exam_repo.dart';
-
-class ExamRepoimpl implements ExamRepo {
+class CourseRepoImpl implements CourseRepo {
   @override
-  Future<Either<Failure, Map<String, dynamic>>> getQstns({
-    required String courseId,
-  }) async {
-    final url = "${Url.baseUrl}/${Url.questions}?exam=$courseId";
-
+  Future<Either<Failure, Map<String, dynamic>>> fetchCourses() async {
+    final url = "${Url.baseUrl}/${Url.getNewcourses}";
     try {
-      log("url:$url");
       final response = await DioClient.dio.get(url);
       if (response.statusCode == 200) {
-        final qns = QuestionModel.fromList(response.data["questions"]);
-
-        return right({"qns": qns, "test_id": response.data['test_id']});
+        final courseList = CourseModel.fromJsonList(response.data);
+        return right({"courses": courseList});
       } else {
         return Left(Failure(message: "${response.statusMessage}"));
       }
@@ -42,16 +36,16 @@ class ExamRepoimpl implements ExamRepo {
   }
 
   @override
-  Future<Either<Failure, Map<String, dynamic>>> submit({
-    required Map<String, dynamic> answers,
-  }) async {
-    final url = "${Url.baseUrl}/${Url.submit}";
-
+  Future<Either<Failure, Map<String, dynamic>>> getMyCourses() async {
+    final url = "${Url.baseUrl}/${Url.getMyCourses}";
     try {
-      final response = await DioClient.dio.post(url, data: answers);
+      final response = await DioClient.dio.get(url);
       if (response.statusCode == 200) {
-        log("resp:${response.data}");
-        return right({});
+        final List<dynamic> data = response.data;
+
+        final courses = data.map((e) => EnrolledCourse.fromJson(e)).toList();
+
+        return right({'course': courses});
       } else {
         return Left(Failure(message: "${response.statusMessage}"));
       }

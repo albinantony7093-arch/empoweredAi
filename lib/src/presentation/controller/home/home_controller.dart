@@ -1,76 +1,86 @@
 import 'dart:developer';
 
-import 'package:empowered_ai/src/data/repositories/exam/exam_repoImpl.dart';
-import 'package:empowered_ai/src/domain/repositories/exam/exam_repo.dart';
-import 'package:empowered_ai/src/presentation/controller/exam/exam_controller.dart';
-import 'package:empowered_ai/src/presentation/screens/exam/exam_page.dart';
-
+import 'package:empowered_ai/src/data/models/course_model.dart';
+import 'package:empowered_ai/src/data/models/enrolled_course.dart';
+import 'package:empowered_ai/src/data/repositories/courses/course_repo_impl.dart';
+import 'package:empowered_ai/src/domain/repositories/courses/course_repo.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
+  // Courses
+  var courseList = <CourseModel>[].obs;
+  var enrolledCourses = <EnrolledCourse>[].obs;
+
+  // Selected course (IMPORTANT)
+  var selectedCourse = Rxn<EnrolledCourse>();
+
+  // UI states
   var currentIndex = 0.obs;
-  final selected = "ug".obs;
+  var isSidebarVisible = true.obs;
+  var isMenuOpen = true.obs;
   var isLoading = false.obs;
 
-  final ExamRepo _examRepo = ExamRepoimpl();
+  RxBool courseLoading = true.obs;
+  RxBool errorinCoursefetch = false.obs;
 
-  final Map<String, Map<String, String>> data = {
-    "ug": {
-      "desc":
-          "Undergraduate entrance — 50 questions from Physics, Chemistry, and Biology.",
-      "btn": "Start UG Test",
-      "q": "50",
-      "s": "PCB",
-      "l": "UG",
-    },
-    "pg": {
-      "desc": "Postgraduate entrance — advanced medical level test.",
-      "btn": "Start PG Test",
-      "q": "60",
-      "s": "Clinical",
-      "l": "PG",
-    },
-  };
+  Rxn<List<int>> recentScores = Rxn<List<int>>();
+  Rxn<List<String>> weakAreas = Rxn<List<String>>();
+  Rxn<List<Map<String, dynamic>>> topicDetails =
+      Rxn<List<Map<String, dynamic>>>();
 
-  void selectExam(String type) {
-    selected.value = type;
+  final CourseRepo _courseRepo = CourseRepoImpl();
+
+  void toggleMenu() => isMenuOpen.toggle();
+  void toggleSidebar() => isSidebarVisible.toggle();
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchCourses();
+    getMycourses();
   }
 
-  Map<String, String> get current => data[selected.value]!;
-
-  void changeIndex(int index) {
-    currentIndex.value = index;
-  }
-
-  void getTestqstns() async {
+  void getMycourses() async {
     try {
-      if (isLoading.value) {
-        return;
-      }
-
       isLoading.value = true;
 
-      final res = await _examRepo.getQstns(course: selected.value);
+      final res = await _courseRepo.getMyCourses();
 
-      res.fold((l) {}, (R) {
-        Get.to(
-          () => ExamPage(),
-          binding: BindingsBuilder(() {
-            Get.lazyPut(
-              () => ExamController(
-                questions: R["qns"],
-                testId: R["test_id"],
-                exm: selected.value,
-              ),
-            );
-          }),
-        );
-      });
+      res.fold(
+        (l) {
+          log("❌ Failed to fetch enrolled courses");
+        },
+        (R) {
+          final List<EnrolledCourse> courses = R['course'] ?? [];
+
+          enrolledCourses.assignAll(courses);
+
+          if (courses.isNotEmpty) {
+            selectedCourse.value = courses.first;
+          }
+        },
+      );
     } catch (e) {
-      log("💥 Error in getTestqstns:$e");
-      isLoading.value = false;
+      log("💥 Error in getMyCourses(): $e");
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  void fetchCourses() async {
+    try {
+      final res = await _courseRepo.fetchCourses();
+
+      res.fold(
+        (l) {
+          log("❌ something went wrong");
+        },
+        (R) {
+          courseList.value = R['courses'];
+        },
+      );
+    } catch (e) {
+      log("💥 Error in fetchCourses");
     }
   }
 }
