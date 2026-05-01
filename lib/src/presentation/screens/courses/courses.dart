@@ -1,10 +1,12 @@
+import 'dart:developer';
+
 import 'package:empowered_ai/src/presentation/controller/home/home_controller.dart';
 import 'package:empowered_ai/src/presentation/screens/courses/widgets/course_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 import 'package:empowered_ai/src/presentation/screens/courses/widgets/banner.dart';
-import 'package:empowered_ai/src/presentation/screens/courses/widgets/section_divider.dart';
 
 class Courses extends StatelessWidget {
   Courses({super.key});
@@ -13,48 +15,49 @@ class Courses extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        HeroWidget(),
-        const SizedBox(height: 40),
+    return Obx(() {
+      if (ctrl.courseLoading.value) {
+        return const Center(
+          child: CircularProgressIndicator(color: Color(0xFF010029)),
+        );
+      }
 
-        Expanded(
-          child: Obx(
-            () => GridView.builder(
-              padding: const EdgeInsets.all(20),
+      return Column(
+        children: [
+          HeroWidget(),
+          const SizedBox(height: 40),
+
+          Expanded(
+            child: GridView.builder(
+              padding: const EdgeInsets.all(16),
               itemCount: ctrl.courseList.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: _getCrossAxisCount(context),
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
-                childAspectRatio: 2,
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 360, // 👈 tighter cards
+                mainAxisSpacing: 16,
+                crossAxisSpacing: 16,
+                mainAxisExtent: 160, // 👈 compact height (KEY)
               ),
               itemBuilder: (context, index) {
                 final course = ctrl.courseList[index];
 
-                return SizedBox.expand(
-                  child: CourseCard(
-                    title: course.title,
-                    description: course.description,
-                    totalQuestions: 180,
-                    duration: "3 Hours",
-                    accentColor: const Color(0xff003D9B),
-                    onStart: () {},
-                  ),
+                return CourseCard(
+                  isEnrolled: course.isenrollerd,
+                  title: course.title,
+                  description: course.description,
+                  totalQuestions: 180,
+                  duration: "3 Hours",
+                  accentColor: const Color(0xff003D9B),
+                  onStart: () {
+                    if (!EasyLoading.isShow) {
+                      ctrl.enrollCourse(courseId: course.id);
+                    }
+                  },
                 );
               },
             ),
           ),
-        ),
-      ],
-    );
-  }
-
-  int _getCrossAxisCount(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-
-    if (width < 600) return 1; // 📱 mobile
-    if (width < 1000) return 2; // 📲 tablet
-    return 3; // 💻 desktop
+        ],
+      );
+    });
   }
 }

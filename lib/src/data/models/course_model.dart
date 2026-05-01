@@ -5,6 +5,7 @@ class CourseModel {
   final int price;
   final bool isActive;
   final String createdBy;
+  final bool isenrollerd;
 
   CourseModel({
     required this.id,
@@ -13,6 +14,7 @@ class CourseModel {
     required this.price,
     required this.isActive,
     required this.createdBy,
+    required this.isenrollerd,
   });
 
   factory CourseModel.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class CourseModel {
       price: json['price'] ?? 0,
       isActive: json['is_active'] ?? false,
       createdBy: json['created_by'] ?? '',
+      isenrollerd: json['is_enrolled'] ?? false,
     );
   }
 

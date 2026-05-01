@@ -1,7 +1,13 @@
+import 'dart:developer';
+
+import 'package:empowered_ai/src/presentation/controller/home/home_controller.dart';
 import 'package:empowered_ai/src/presentation/screens/dashboard/widgets/ai_insect.dart';
+import 'package:empowered_ai/src/presentation/screens/dashboard/widgets/empty_dashboard.dart';
 import 'package:empowered_ai/src/presentation/screens/dashboard/widgets/stat_card.dart';
 import 'package:empowered_ai/src/presentation/screens/dashboard/widgets/weak_area_card.dart';
+import 'package:empowered_ai/src/presentation/widgets/dropdown_selector.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -9,102 +15,141 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 40),
-              // ── Header label ──────────────────────────
-              Text(
-                'LAST TEST PERFORMANCE',
-                style: GoogleFonts.inter(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14,
-                  color: Color(0xff111C2D),
-                ),
-              ),
+    final ctrl = Get.find<HomeController>();
 
-              const SizedBox(height: 12),
+    return Obx(() {
+      final selected = ctrl.selectedCourse.value;
 
-              // ── Top row: Score | Rank | Percentile ────
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
+      // 🔹 Initial loading
+      if (selected == null) {
+        return const Center(
+          child: CircularProgressIndicator(color: Color(0xFF010029)),
+        );
+      }
+
+      final isEmpty = ctrl.recentScores.isEmpty;
+
+      return Container(
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 40),
+
+                // ── Header + Dropdown ───────────────
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
-                      child: StatCard(
-                        label: 'Score',
-                        value: '210/730',
-                        imagePath: 'assets/images/Container.png',
+                    Text(
+                      'LAST TEST PERFORMANCE',
+                      style: GoogleFonts.inter(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 14,
+                        color: const Color(0xff111C2D),
                       ),
                     ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: StatCard(
-                        label: 'RANK',
-                        value: '12,230',
-                        imagePath: 'assets/images/trophy.png',
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: StatCard(
-                        label: 'PERCENTILE',
-                        value: '20%',
-                        imagePath: 'assets/images/percentage.png',
-                      ),
+                    DropdownSelector(
+                      value: selected.title,
+                      items: ctrl.enrolledCourses.map((e) => e.title).toList(),
+                      onChanged: (val) {
+                        final course = ctrl.enrolledCourses.firstWhere(
+                          (e) => e.title == val,
+                        );
+
+                        ctrl.changeCourse(course);
+                      },
                     ),
                   ],
                 ),
-              ),
 
-              const SizedBox(height: 30),
+                const SizedBox(height: 16),
 
-              // ── Mode badge ────────────────────────────
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 5,
+                // ── Dashboard Content ───────────────
+                if (ctrl.dashboardLoading.value)
+                  const Center(
+                    child: CircularProgressIndicator(color: Color(0xFF010029)),
+                  )
+                else if (isEmpty)
+                  const EmptyDashboard()
+                else ...[
+                  // ── Stats Cards ────────────────
+                  Row(
+                    children: [
+                      Expanded(
+                        child: StatCard(
+                          label: 'Score',
+                          value:
+                              "${ctrl.latestScore.value ?? 0}/${ctrl.totalQuestions.value ?? 0}",
+                          imagePath: 'assets/images/Container.png',
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: StatCard(
+                          label: 'Rank',
+                          value: ctrl.rank.value?.toString() ?? "--",
+                          imagePath: 'assets/images/trophy.png',
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: StatCard(
+                          label: 'Percentile',
+                          value: ctrl.percentile.value != null
+                              ? "${ctrl.percentile.value!.toStringAsFixed(1)}%"
+                              : "--",
+                          imagePath: 'assets/images/percentage.png',
+                        ),
+                      ),
+                    ],
                   ),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFEEF2FF),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: const Color(0xFFC5D0FF)),
-                  ),
-                  child: const Text(
-                    '🎓  UG Preparation Mode',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF3B5BDB),
+
+                  const SizedBox(height: 24),
+
+                  // ── Mode Badge ────────────────
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFEEF2FF),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      '🎓 ${selected.title} Preparation Mode',
+                      style: TextStyle(fontSize: 12, color: Color(0xFF3B5BDB)),
                     ),
                   ),
-                ),
-              ),
 
-              const SizedBox(height: 24),
+                  const SizedBox(height: 50),
 
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Expanded(child: WeakAreasWidget()),
-                    SizedBox(width: 16),
-                    Expanded(child: AIInsightsWidget()),
-                  ],
-                ),
-              ),
-            ],
+                  // ── Bottom Section ─────────────
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (ctrl.dashboardweakAreas.isNotEmpty)
+                        Expanded(
+                          child: WeakAreasWidget(
+                            weakAreas: ctrl.dashboardweakAreas,
+                          ),
+                        ),
+
+                      if (ctrl.dashboardweakAreas.isNotEmpty)
+                        const SizedBox(width: 16),
+
+                      const Expanded(child: AIInsightsWidget()),
+                    ],
+                  ),
+                ],
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

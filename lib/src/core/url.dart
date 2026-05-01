@@ -8,7 +8,7 @@ class Url {
 
   //getCourses
   static String getNewcourses = 'courses/';
-  static String getMyCourses = 'courses/my';
+  static String getMyprofile = 'profile/me';
 
   //registration
   static String registeration = 'auth/register';
@@ -20,8 +20,11 @@ class Url {
 
   static String refresh = "user/refresh";
 
-  static String questions = "test/questions";
-  static String submit = "test/submit";
+  static String questions(String courseId) {
+    return 'courses/$courseId/test/start';
+  }
+
+  static String submit = "courses/test/submit";
 
   static String dashboard = "analytics/dashboard";
 

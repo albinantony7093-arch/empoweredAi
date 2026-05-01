@@ -11,13 +11,14 @@ class CourseEnrolRepoimpl implements CourseEnrolRepo {
   Future<Either<Failure, Map<String, dynamic>>> enrolCourse({
     required String courseId,
   }) async {
-    String url = Url.enrollCourse(courseId);
+    String url = "${Url.baseUrl}/${Url.enrollCourse(courseId)}";
 
     try {
       final response = await DioClient.dio.post(url);
-      if (response.statusCode == 200) {
-        return right({});
+      if (response.statusCode == 201) {
+        return right({'message': 'Welcome! Your course is ready to start.'});
       } else {
+        log("response br:${response.statusMessage}");
         return Left(Failure(message: "${response.statusMessage}"));
       }
     } on DioException catch (e) {
@@ -25,7 +26,7 @@ class CourseEnrolRepoimpl implements CourseEnrolRepo {
       return left(
         Failure(
           message:
-              e.response?.data?['detail']?.toString() ??
+              e.response?.data?['message']?.toString() ??
               "Something went wrong!",
         ),
       );

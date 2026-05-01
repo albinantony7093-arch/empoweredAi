@@ -71,23 +71,22 @@ class ResponsiveTopBar extends StatelessWidget {
                 ),
               ),
 
-              Obx(
-                () => _MenuItem(
-                  icon: Icons.self_improvement_rounded,
-                  label: "Calm Corner",
-                  isOpen: isOpen,
-                  isActive: ctrl.currentIndex.value == 3,
-                  onTap: () => ctrl.currentIndex.value = 3,
-                ),
-              ),
-
+              // Obx(
+              //   () => _MenuItem(
+              //     icon: Icons.self_improvement_rounded,
+              //     label: "Calm Corner",
+              //     isOpen: isOpen,
+              //     isActive: ctrl.currentIndex.value == 3,
+              //     onTap: () => ctrl.currentIndex.value = 3,
+              //   ),
+              // ),
               Obx(
                 () => _MenuItem(
                   icon: Icons.person_rounded,
                   label: "Profile",
                   isOpen: isOpen,
-                  isActive: ctrl.currentIndex.value == 4,
-                  onTap: () => ctrl.currentIndex.value = 4,
+                  isActive: ctrl.currentIndex.value == 3,
+                  onTap: () => ctrl.currentIndex.value = 3,
                 ),
               ),
 
