@@ -88,7 +88,7 @@ class HeaderCard extends StatelessWidget {
           /// Meta Row
           Row(
             children: [
-              _Meta("EXAM", "NEET UG"),
+              _Meta("EXAM", "${ctrl.exm}"),
               _Meta("SUBJECT", "PCB"),
               Obx(() => _Meta("QUESTIONS", "${ctrl.questions.length}")),
               _Meta("TIME", "60 min"),

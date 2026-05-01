@@ -1,7 +1,7 @@
 import 'package:empowered_ai/src/presentation/controller/home/home_controller.dart';
 import 'package:empowered_ai/src/presentation/screens/calmcorner/calm_corner.dart';
 import 'package:empowered_ai/src/presentation/screens/dashboard/dashboard.dart';
-import 'package:empowered_ai/src/presentation/screens/dashboard/widgets/score_card.dart';
+import 'package:empowered_ai/src/presentation/screens/dashboard/widgets/stat_card.dart';
 import 'package:empowered_ai/src/presentation/screens/home/widgets/topappbar.dart';
 import 'package:empowered_ai/src/presentation/screens/courses/courses.dart';
 import 'package:empowered_ai/src/presentation/screens/profile/profile.dart';
@@ -33,7 +33,6 @@ class HomeScreen extends StatelessWidget {
                     Courses(),
                     DashboardScreen(),
                     ExamCard(),
-                    CalmCorner(),
                     Profile(),
                   ],
                 ),

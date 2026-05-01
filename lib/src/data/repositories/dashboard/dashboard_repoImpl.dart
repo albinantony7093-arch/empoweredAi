@@ -8,19 +8,30 @@ import 'package:empowered_ai/src/domain/repositories/dashboard/dashboard_repo.da
 
 class DashboardRepoimpl implements DashboardRepo {
   @override
-  Future<Either<Failure, Map<String, dynamic>>> fetchexamDetails({
-    required String course,
+  Future<Either<Failure, Map<String, dynamic>>> fetchDashboardDetails({
+    required String courseId,
   }) async {
-    final url = "${Url.baseUrl}/${Url.dashboard}?exam=$course";
+    final url = "${Url.baseUrl}/${Url.dashboard}?course_id=$courseId";
     try {
       final response = await DioClient.dio.get(url);
       if (response.statusCode == 200) {
         return right({
           "user_id": response.data['user_id'],
           "exam": response.data['exam'],
-          "recent_scores": response.data['recent_scores'],
-          "weak_areas": response.data['weak_areas'],
-          "topic_details": response.data['topic_details'],
+          "course_id": response.data['course_id'],
+
+          "recent_scores": response.data['recent_scores'] ?? [],
+          "latest_score": response.data['latest_score'],
+          "total_questions": response.data['total_questions'],
+          "correct_answers": response.data['correct_answers'],
+          "accuracy": response.data['accuracy'],
+          "rank": response.data['rank'],
+          "percentile": response.data['percentile'],
+
+          "weak_areas": response.data['weak_areas'] ?? [],
+          "topic_details": response.data['topic_details'] ?? [],
+
+          "mentor_advice": response.data['mentor_advice'] ?? [],
         });
       } else {
         return Left(Failure(message: "${response.statusMessage}"));

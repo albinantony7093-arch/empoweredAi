@@ -4,6 +4,7 @@ import 'package:empowered_ai/src/presentation/controller/home/home_controller.da
 import 'package:empowered_ai/src/presentation/screens/exam_card/widgets/start_exam_card.dart';
 import 'package:empowered_ai/src/presentation/widgets/dropdown_selector.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 class ExamCard extends StatelessWidget {
@@ -48,10 +49,15 @@ class ExamCard extends StatelessWidget {
                         .map((course) => course.title)
                         .toList(),
                     onChanged: (val) {
-                      ctrl.selectedCourse.value = ctrl.enrolledCourses
-                          .firstWhere((e) => e.title == val);
+                      // ctrl.selectedCourse.value = ctrl.enrolledCourses
+                      //     .firstWhere((e) => e.title == val);
 
-                      log("Selected: ${ctrl.selectedCourse.value?.title}");
+                      // log("Selected: ${ctrl.selectedCourse.value?.title}");
+
+                      final course = ctrl.enrolledCourses.firstWhere(
+                        (e) => e.title == val,
+                      );
+                      ctrl.changeCourse(course);
                     },
                   ),
                 ],
@@ -67,7 +73,9 @@ class ExamCard extends StatelessWidget {
                 description: selected.description,
                 points: selected.keypoints,
                 onStart: () {
-                  log("Course ID: ${selected.courseId}");
+                  if (EasyLoading.isShow != true) {
+                    ctrl.getqstns(courseId: selected.courseId);
+                  }
                 },
               ),
             ],

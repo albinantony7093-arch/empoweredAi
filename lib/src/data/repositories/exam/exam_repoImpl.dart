@@ -14,10 +14,9 @@ class ExamRepoimpl implements ExamRepo {
   Future<Either<Failure, Map<String, dynamic>>> getQstns({
     required String courseId,
   }) async {
-    final url = "${Url.baseUrl}/${Url.questions}?exam=$courseId";
+    String url = "${Url.baseUrl}/${Url.questions(courseId)}";
 
     try {
-      log("url:$url");
       final response = await DioClient.dio.get(url);
       if (response.statusCode == 200) {
         final qns = QuestionModel.fromList(response.data["questions"]);
@@ -31,7 +30,7 @@ class ExamRepoimpl implements ExamRepo {
       return left(
         Failure(
           message:
-              e.response?.data?['detail']?.toString() ??
+              e.response?.data?['message']?.toString() ??
               "Something went wrong!",
         ),
       );
@@ -49,9 +48,17 @@ class ExamRepoimpl implements ExamRepo {
 
     try {
       final response = await DioClient.dio.post(url, data: answers);
+      log("resp:$response");
       if (response.statusCode == 200) {
-        log("resp:${response.data}");
-        return right({});
+        return right({
+          "test_id": response.data['test_id'],
+          "score": response.data['score'],
+          "total": response.data['total'],
+          "accuracy": response.data['accuracy'],
+          "weak_areas": response.data['weak_areas'],
+          "rank": response.data['rank'],
+          "percentile": response.data['percentile'],
+        });
       } else {
         return Left(Failure(message: "${response.statusMessage}"));
       }
